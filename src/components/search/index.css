@@ -1,0 +1,41 @@
+
+
+.logoSection{
+    width: 300px;
+    padding: 0 32px;
+    @media (max-width:786px) {
+         width: 100%;;
+         display: flex;
+         justify-content: center;
+    }
+}
+.searchSection{
+    padding:32px;
+    @media (max-width:786px) {
+        max-width: 100%;
+        
+        margin-top: 16px 0 16px;
+
+   }
+}
+.searchForm{
+    @media (max-width:786px) {
+      justify-content: center;
+      gap: 12px;
+   }
+}
+.responsiveInput{
+    @media (max-width:786px) {
+        width: 290px !important;
+
+     }
+}
+.responsiveButton{
+    width:120px;
+    margin:auto 0;
+    @media (max-width:786px) {
+        width: 100%;
+        margin: 8px auto 16px;
+
+     }
+}

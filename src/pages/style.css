@@ -15,7 +15,6 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
-  text-align: center;
   height: 66px;
 
 
@@ -52,9 +51,80 @@ input[type=number] {
     outline: none!important;
     cursor: pointer;
     min-height: 48px;
-    position: relative;  }
+    position: relative; 
+  @media (max-width:786px) {
+    width: 300px;
+    margin: 0 auto;
+  }
+  }
     
 
     .my-3{
         margin: 32px auto;
     }
+    .flexCenter{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .mobileSize{
+      display: flex;
+      flex-direction: column;
+
+      @media (max-width:786px) {
+        text-align: center;
+      }
+    }
+    .center{
+      @media (max-width:786px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+.cart{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width:786px) {
+  }
+}
+
+.background{
+  margin:0 auto;
+   background: url(../assests/images/bg.jpg); 
+   background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 24px;
+}
+.sperator{
+  color: #fba1b7;
+}
+
+.flexFontHeader{
+  font-size: 56px;
+  @media (max-width:786px) {
+    font-size: 38px;
+  }
+}
+.flexFontDesc{
+    padding: 0 32px;
+    font-size: 28px;
+  @media (max-width:786px) {
+        padding: 0 16px;
+        font-size: 22px;
+
+  }
+}
+.flexPadding{
+  padding: 0 32px;
+  @media (max-width:786px) {
+    padding: 0 16px;
+
+}
+
+}

@@ -6,8 +6,13 @@ import {filterOrder, reduceProduct} from '../redux/reducer/productReducer'
 import { useDispatch } from 'react-redux';
 import { ToastContainer,toast } from 'react-toastify';
 import { getNextOrederId,makeOrder } from "../api/productApi";
+import StatusModal from "../components/modal/status";
 const Cart = () => {
     const [orderIdState,setOrderIdState] = useState('')
+    const [showStatusModal,setShwoStatusModal] = useState(false)
+    const [isLocaitonSubmited,setIsLocationSubmited] = useState(false)
+    const [disableSendorder,setDisableorder] = useState(false)
+
     const product = useSelector(state => state.product)
     const dispatch = useDispatch()
     const productNumber =() => {
@@ -15,7 +20,7 @@ const Cart = () => {
       }
       const reduceProductNumber = (product) =>{
         dispatch(reduceProduct(product))
-        toast.error('🦄 Wow so easy!', {
+        toast.error('you delete item successfully', {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -40,13 +45,10 @@ const Cart = () => {
        return product.reduce((acc,curr)=>acc + curr.totalAmount,0)    
      }
 
-    const formatProductArray = () =>{
-        return product.reduce((acc,curr) =>{
-          return acc.push({quantity:curr.quantity,name:product.rest.productName,id:product.rest.id})
-        },[])
-    }
+
 
       const handleMakeOrder = async () =>{
+        setDisableorder(true)
         dispatch(filterOrder())
         const order_totalAmount =getTotalAmout()
         
@@ -71,7 +73,15 @@ const Cart = () => {
       
        }
         
-       const res =  await makeOrder(data);
+        await makeOrder(data).then(res =>{
+        if(res.success){
+          localStorage.clear();
+          setIsLocationSubmited(false)
+          setShwoStatusModal(true)
+        }
+       }).catch(err =>{
+        console.log(err)
+       })
 
       }
     return ( 
@@ -79,19 +89,17 @@ const Cart = () => {
         <div>
 <p className="text-center"style={{fontFamily:'oswald',fontSize:'38px',}}>Checkout </p>
      
-        <div className="d-flex ">
+        <div className="cart">
 
-                  <div className=" " style={{width:'56%'}}>
-        <LocationForm/>
+     
 
-        </div>
-        <div className="w-50 p-3 " >
+        <div className="p-3 " style={{width:"100%",position:'relative'}} >
             <p className="text-center my-4" style={{fontFamily:'oswald',fontSize:'34px'}}>Order Summary</p>
-          {productNumber() !== 0  && product.map(product =>
+    {productNumber() !== 0  && product.map(product =>
   {
     return(
       product.quantity > 0 &&
-      <div key={product.productImage} className='d-flex align-items-center justify-content-around my-2' style={{maxHeight:'100px',fontFamily:'lato'}}>
+      <div key={product.productImage} className='d-flex align-items-center justify-content-around my-2  shadow-sm' style={{maxHeight:'100px',fontFamily:'lato',width:"96%"}}>
       <div  style={{background:'#f6f6f6',position:'relative',margin:'16px 0'}}>
      <img src={`http://baby-bucket-product.s3.amazonaws.com/${product['rest'].productImage}`} 
      alt="productImage" 
@@ -100,10 +108,10 @@ const Cart = () => {
      style={{borderRadius:'50%'}}
      />
      </div>
-     <p className='my-0 mx-3 w-25 text-center'>{product['rest'].productName}</p>
+     <p className='my-0 mx-3  text-center'>{product['rest'].productName}</p>
      <p className='my-0 mx-3 '>{product['rest'].productPrice}</p>
      <p className='my-0 mx-3'>{product.quantity}</p>
-     <p className='my-0 mx-3'>{product.totalAmount}</p>
+     {/* <p className='my-0 mx-3'>{product.totalAmount}</p> */}
      <p className='m-0 ' onClick={()=>reduceProductNumber(product)} >
     <img src={Delete} alt='toma-boutique' width={40} height={40}/>
      </p>
@@ -111,11 +119,15 @@ const Cart = () => {
 
     )}
 )}
-     <button onClick={()=>handleMakeOrder()}>Make it order</button>
 
         </div>
-  
+        <div>
+        <LocationForm disableSendorder={disableSendorder} setIsLocationSubmited={setIsLocationSubmited} orderIdState={orderIdState} locationSubmited={isLocaitonSubmited} handleMakeOrder={handleMakeOrder}/>
+
         </div>
+
+        </div>
+        <StatusModal showStatusModal={showStatusModal} setShwoStatusModal={setShwoStatusModal}/>
         </div>
      );
 }

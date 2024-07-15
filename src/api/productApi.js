@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 export const Axios = axios.create({
+  //  baseURL: 'https://toma-boutique-bc4536360c89.herokuapp.com/', 
     baseURL: 'http://localhost:4060/', 
+
     timeout: 5000, // Request timeout in milliseconds
     headers: {
       'Authorization': 'Bearer YourAccessToken', // Custom headers
@@ -17,7 +19,6 @@ export const getProductApi = async ()=>{
 export const getProductById =  async(id)=>{
     const response = await Axios.get(`products/${id}`);
     return response.data;
-
 }
 
 export const deleteProductById =  async(id)=>{
@@ -76,4 +77,8 @@ export const adminLogin = async(data) =>{
   const response = await Axios.post(`admin/adminLogin/`,data);
   return response.data;
 
+}
+export const changeProductVisibility = async(id)=>{
+  const response = await Axios.post(`products/updateProduct/${id}`);
+  return response.data
 }

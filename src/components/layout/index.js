@@ -8,8 +8,7 @@ const Layout = ({children,setSearch}) => {
     const [showProductsModal,setShowPorductsModal ] = useState(false);
     return (
         <>
-        <Header setShowPorductsModal={setShowPorductsModal}  />
-        <Search setSearch={setSearch}/>
+   
           <MyModal showProductsModal={showProductsModal} setShowPorductsModal={setShowPorductsModal}/>
             {children}
             <Footer />
